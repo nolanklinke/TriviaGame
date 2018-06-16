@@ -1,10 +1,3 @@
-$(document).ready(function() {
-    $("#questionsGoHere").hide();
-    
-});
-
-
-
 //state all variables needed for object (trivia game)
 var trivia = {
     questions: ["Which doughnut was considered a staple of the New England diet since the pilgrims and traditionally looks like a 'small, braided torpedo'?",
@@ -27,23 +20,57 @@ var trivia = {
             "Boston, MA"],
             
     countdownTimer: 30,
+    
     correct: 0,
     wrong: 0,
-
-//show start page html on page refresh with function
-    reset: function() {
-        
-    }
-
-
-
-
-
-//create for loop or function to cycle through questions array and display 
-
-//create timing event to call each html section after certain time
-
-
 };
 
 
+$(document).ready(function() {
+
+    function run() {
+
+        if (trivia.countdownTimer == 0) {
+          clearTimeout(run);
+          //doSomething();
+        } else {
+            document.getElementById("timer").innerHTML = "Time Remaining: " + trivia.countdownTimer + " seconds.";
+            trivia.countdownTimer--;
+        }
+      };
+
+    $("#questionsGoHere").hide();
+    $("#optionsGoHere").hide();
+    
+    $("#startGame").on("click", function(){
+        setInterval(run, 1000);
+        run();
+
+        document.getElementById("questionsGoHere").innerHTML = trivia.questions[0];
+        $("#questionsGoHere").show();
+        $("#optionsGoHere").show();
+        $("#startGame").hide();
+
+        makeOptions(trivia.options[0]);
+
+
+        
+});
+});
+
+var makeOptions = function(arrayIndex) {
+    for (var i = 0; i < arrayIndex.length; i++) {
+        var newDiv = $("<div>");
+        newDiv.text(arrayIndex[i]);
+        $("#optionsGoHere").append(newDiv);
+        console.log(arrayIndex[i]);
+    }
+  };
+  
+
+/*for(var i = 0; i < cubes.length; i++) {
+    var cube = cubes[i];
+    for(var j = 0; j < cube.length; j++) {
+        display("cube[" + i + "][" + j + "] = " + cube[j]);
+    }
+}*/
