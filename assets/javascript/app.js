@@ -54,6 +54,8 @@ $(document).ready(function() {
 });
 
 var makeOptions = function(arrayIndex) {
+    $("#optionsGoHere").empty();
+
     for (var i = 0; i < arrayIndex.length; i++) {
         var newDiv = $("<div>");
         newDiv.addClass("optionBtn btn btn-lg btn-outline-dark btn-block mx-auto m-2");
@@ -70,15 +72,41 @@ var makeOptions = function(arrayIndex) {
 
         if (userPick === trivia.answers[0]) {
             alert("Yes");
+            trivia.correct++;
+            trivia.countdownTimer = 30;
         
         } else if (userPick !== trivia.answers[0]) {
             alert("no");
+            trivia.wrong++;
+            trivia.countdownTimer = 30; 
+            nextQuestion();
             
         }
     });
   };
 
-  function nextGuestion() {
-      //function to call to get next question and answer choice display
-  }
+  function nextQuestion() {
+      document.getElementById("questionsGoHere").innerHTML = trivia.questions[1];
+      makeOptions(trivia.options[1]);      
+  };
 });
+
+/*// Function for displaying movie data
+function renderButtons() {
+
+    // YOUR CODE GOES HERE
+    for (var i = 0; i < movies.length; i++) {
+      $("#movies-view").append("<button>" + movies[i] + "</button>");
+    }
+
+  }
+
+  // This function handles events where one button is clicked
+  $("#add-movie").on("click", function() {
+
+    // YOUR CODE GOES HERE
+
+  });
+
+  // Calling the renderButtons function to display the initial list of movies
+  renderButtons();*/
