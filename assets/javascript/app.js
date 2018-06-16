@@ -20,7 +20,6 @@ var trivia = {
             "Boston, MA"],
             
     countdownTimer: 30,
-    
     correct: 0,
     wrong: 0,
 };
@@ -61,6 +60,7 @@ $(document).ready(function() {
 var makeOptions = function(arrayIndex) {
     for (var i = 0; i < arrayIndex.length; i++) {
         var newDiv = $("<div>");
+        newDiv.addClass("btn btn-lg btn-outline-dark btn-block mx-auto m-2");
         newDiv.text(arrayIndex[i]);
         $("#optionsGoHere").append(newDiv);
         console.log(arrayIndex[i]);
