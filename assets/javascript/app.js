@@ -28,7 +28,6 @@ var trivia = {
 $(document).ready(function() {
 
     function run() {
-
         if (trivia.countdownTimer == 0) {
           clearTimeout(run);
           //doSomething();
@@ -51,26 +50,35 @@ $(document).ready(function() {
         $("#startGame").hide();
 
         makeOptions(trivia.options[0]);
-
-
         
-});
 });
 
 var makeOptions = function(arrayIndex) {
     for (var i = 0; i < arrayIndex.length; i++) {
         var newDiv = $("<div>");
-        newDiv.addClass("btn btn-lg btn-outline-dark btn-block mx-auto m-2");
+        newDiv.addClass("optionBtn btn btn-lg btn-outline-dark btn-block mx-auto m-2");
+        newDiv.data("answer", arrayIndex[i]);
         newDiv.text(arrayIndex[i]);
         $("#optionsGoHere").append(newDiv);
         console.log(arrayIndex[i]);
-    }
-  };
-  
 
-/*for(var i = 0; i < cubes.length; i++) {
-    var cube = cubes[i];
-    for(var j = 0; j < cube.length; j++) {
-        display("cube[" + i + "][" + j + "] = " + cube[j]);
-    }
-}*/
+       
+    };
+
+    $(".optionBtn").on("click", function() {
+        var userPick = $(this).data("answer")
+
+        if (userPick === trivia.answers[0]) {
+            alert("Yes");
+        
+        } else if (userPick !== trivia.answers[0]) {
+            alert("no");
+            
+        }
+    });
+  };
+
+  function nextGuestion() {
+      //function to call to get next question and answer choice display
+  }
+});
