@@ -4,7 +4,8 @@ var trivia = {
                 "How many doughnuts are made in the U.S. each year?",
                 "National Donut Day was established in 1938 to celebrate the Salvation Army Workers (“Doughnut Girls”) who supplied free donuts to American troops during WWI. When is National Donut Day?",
                 "What holiday was celebrated by bobbing for doughnuts hung from a string?",
-                "Which city has the most doughnut shops per person?"
+                "Which city has the most doughnut shops per person?",
+                "Game is Over! You got " 
 ], 
     options: [
         ["Old-fashioned", "Cinnamon Twist", "Cruller", "Scone"],
@@ -19,7 +20,7 @@ var trivia = {
             "Halloween", 
             "Boston, MA"],
             
-    countdownTimer: 30,
+    countdownTimer: 15,
     correct: 0,
     wrong: 0,
 };
@@ -27,22 +28,73 @@ var trivia = {
 
 $(document).ready(function() {
 
-    function run() {
-        if (trivia.countdownTimer == 0) {
-          clearTimeout(run);
-          //doSomething();
-        } else {
-            document.getElementById("timer").innerHTML = "Time Remaining: " + trivia.countdownTimer + " seconds.";
-            trivia.countdownTimer--;
+    function correct() {
+        trivia.correct++;
+        $("#timer").hide();
+        $("#optionsGoHere").hide();
+        $("#questionsGoHere").html("Yes, That is correct!");
+        setTimeout(function() {
+            nextQuestion();
+          }, 5000);
+    }
+
+    function incorrect() {
+        trivia.wrong++;
+        $("#timer").hide();
+        $("#optionsGoHere").hide();
+        $("#questionsGoHere").html("Sorry, That is incorrect!");
+        setTimeout(function() {
+            nextQuestion();
+          }, 5000);
+    }
+
+    function timeUp() {
+        trivia.wrong++;
+        $("#timer").hide();
+        $("#optionsGoHere").hide();
+        $("#questionsGoHere").html("Woops! You ran out of time!");
+        setTimeout(function() {
+            nextQuestion();
+          }, 5000);
+    }
+
+    /*function run() {
+        trivia.countdownTimer = 15;
+        clearInterval(timer);
+        timer = setInterval(decrement, 1000);
+    }*/
+
+
+    /*function decrement() {
+        $("#timer").html("Time Remaining: " + trivia.countdownTimer + " seconds.");
+        trivia.countdownTimer--;
+        
+
+        if (trivia.countdownTimer < 0) {
+            timeUp();
+            
         }
-      };
+    }*/
+
+    function nextQuestion() {
+        trivia.questions.shift();
+        trivia.options.shift();
+        trivia.answers.shift();
+        //$("#timer").show();
+        $("#questionsGoHere").show();
+        $("#optionsGoHere").show();
+        document.getElementById("questionsGoHere").innerHTML = trivia.questions[0];
+        makeOptions(trivia.options[0]);  
+        
+    };
+
+    
 
     $("#questionsGoHere").hide();
     $("#optionsGoHere").hide();
     
     $("#startGame").on("click", function(){
-        setInterval(run, 1000);
-        run();
+        //run();
 
         document.getElementById("questionsGoHere").innerHTML = trivia.questions[0];
         $("#questionsGoHere").show();
@@ -62,33 +114,25 @@ var makeOptions = function(arrayIndex) {
         newDiv.data("answer", arrayIndex[i]);
         newDiv.text(arrayIndex[i]);
         $("#optionsGoHere").append(newDiv);
-        console.log(arrayIndex[i]);
 
-       
     };
 
     $(".optionBtn").on("click", function() {
         var userPick = $(this).data("answer")
 
         if (userPick === trivia.answers[0]) {
-            alert("Yes");
-            trivia.correct++;
-            trivia.countdownTimer = 30;
+            //run();
+            correct();
         
         } else if (userPick !== trivia.answers[0]) {
-            alert("no");
-            trivia.wrong++;
-            trivia.countdownTimer = 30; 
-            nextQuestion();
+            //run();
+            incorrect();
             
         }
     });
   };
 
-  function nextQuestion() {
-      document.getElementById("questionsGoHere").innerHTML = trivia.questions[1];
-      makeOptions(trivia.options[1]);      
-  };
+  
 });
 
 /*// Function for displaying movie data
