@@ -4,8 +4,7 @@ var trivia = {
                 "How many doughnuts are made in the U.S. each year?",
                 "National Donut Day was established in 1938 to celebrate the Salvation Army Workers (“Doughnut Girls”) who supplied free donuts to American troops during WWI. When is National Donut Day?",
                 "What holiday was celebrated by bobbing for doughnuts hung from a string?",
-                "Which city has the most doughnut shops per person?",
-                "Game is Over! You got " 
+                "Which city has the most doughnut shops per person?", 
 ], 
     options: [
         ["Old-fashioned", "Cinnamon Twist", "Cruller", "Scone"],
@@ -19,7 +18,6 @@ var trivia = {
             "The 1st Friday of June", 
             "Halloween", 
             "Boston, MA"],
-            
     countdownTimer: 15,
     correct: 0,
     wrong: 0,
@@ -35,7 +33,7 @@ $(document).ready(function() {
         $("#questionsGoHere").html("Yes, That is correct!");
         setTimeout(function() {
             nextQuestion();
-          }, 5000);
+          }, 3000);
     }
 
     function incorrect() {
@@ -45,7 +43,7 @@ $(document).ready(function() {
         $("#questionsGoHere").html("Sorry, That is incorrect!");
         setTimeout(function() {
             nextQuestion();
-          }, 5000);
+          }, 3000);
     }
 
     function timeUp() {
@@ -55,26 +53,8 @@ $(document).ready(function() {
         $("#questionsGoHere").html("Woops! You ran out of time!");
         setTimeout(function() {
             nextQuestion();
-          }, 5000);
+          }, 3000);
     }
-
-    /*function run() {
-        trivia.countdownTimer = 15;
-        clearInterval(timer);
-        timer = setInterval(decrement, 1000);
-    }*/
-
-
-    /*function decrement() {
-        $("#timer").html("Time Remaining: " + trivia.countdownTimer + " seconds.");
-        trivia.countdownTimer--;
-        
-
-        if (trivia.countdownTimer < 0) {
-            timeUp();
-            
-        }
-    }*/
 
     function nextQuestion() {
         trivia.questions.shift();
@@ -85,7 +65,6 @@ $(document).ready(function() {
         $("#optionsGoHere").show();
         document.getElementById("questionsGoHere").innerHTML = trivia.questions[0];
         makeOptions(trivia.options[0]);  
-        
     };
 
     
@@ -94,7 +73,6 @@ $(document).ready(function() {
     $("#optionsGoHere").hide();
     
     $("#startGame").on("click", function(){
-        //run();
 
         document.getElementById("questionsGoHere").innerHTML = trivia.questions[0];
         $("#questionsGoHere").show();
@@ -121,11 +99,9 @@ var makeOptions = function(arrayIndex) {
         var userPick = $(this).data("answer")
 
         if (userPick === trivia.answers[0]) {
-            //run();
             correct();
         
         } else if (userPick !== trivia.answers[0]) {
-            //run();
             incorrect();
             
         }
