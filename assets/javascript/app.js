@@ -19,9 +19,9 @@ var trivia = {
             "Halloween", 
             "Boston, MA"],
     countdownTimer: 15,
+    clockCounter: 20,
     counter: 0,
     correct: 0,
-    wrong: 0,
 };
 
 
@@ -35,46 +35,66 @@ $(document).ready(function() {
         $("#questionsGoHere").html("Yes, That is correct!");
         setTimeout(function() {
             nextQuestion();
-          }, 3000);
+          }, 4000);
     }
 
     function incorrect() {
-        trivia.wrong++;
-        
         $("#timer").hide();
         $("#optionsGoHere").hide();
-        $("#questionsGoHere").html("Sorry, That is incorrect! The correct option was " + trivia.answers[trivia.counter] + " .");
+        $("#questionsGoHere").html("Sorry, That is incorrect! The correct option was " + trivia.answers[trivia.counter] + ".");
         trivia.counter++;
         setTimeout(function() {
             nextQuestion();
-          }, 3000);
+          }, 4000);
     }
 
     function timeUp() {
-        trivia.wrong++;
         $("#timer").hide();
+        trivia.counter++;
         $("#optionsGoHere").hide();
         $("#questionsGoHere").html("Woops! You ran out of time!");
         setTimeout(function() {
             nextQuestion();
-          }, 3000);
+          }, 4000);
+
+          
     }
 
     function finalPage() {
+        clearInterval(theClock);
         document.getElementById("questionsGoHere").innerHTML = "You got " + trivia.correct + " out of 5 correct.";
         document.getElementById("startGame").innerHTML = "Play Again?";
         $("#startGame").show();
     }
 
+    function timer() {
+        
+        theClock = setInterval(twentySeconds, 1000);
+        function twentySeconds() {
+            if (trivia.clockCounter === 0) {
+                clearInterval(theClock);
+                timeUp();
+            }
+            if (trivia.clockCounter > 0) {
+                trivia.clockCounter--;
+            }
+            $("#timer").html("Time remaining: " + trivia.clockCounter + " seconds.");
+        }
+    }
+
 
     function nextQuestion() {
 
+
+
         if (trivia.counter < 5) {
-        //$("#timer").show();
+        trivia.clockCounter = 20;    
+        $("#timer").show();
         $("#questionsGoHere").show();
         $("#optionsGoHere").show();
         document.getElementById("questionsGoHere").innerHTML = trivia.questions[trivia.counter];
         makeOptions(trivia.options[trivia.counter]); 
+
         } else {
             finalPage();
         } 
@@ -86,6 +106,9 @@ $(document).ready(function() {
     $("#optionsGoHere").hide();
     
     $("#startGame").on("click", function(){
+        $("#timer").show();
+        trivia.clockCounter = 20;
+        timer();
         trivia.counter = 0;
         trivia.correct = 0;
 
@@ -125,4 +148,6 @@ var makeOptions = function(arrayIndex) {
 
   
 });
+
+
 
