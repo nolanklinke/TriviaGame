@@ -53,10 +53,11 @@ $(document).ready(function() {
         trivia.counter++;
         $("#optionsGoHere").hide();
         $("#questionsGoHere").html("Woops! You ran out of time!");
+        trivia.clockCounter = 20;
         setTimeout(function() {
             nextQuestion();
           }, 4000);
-
+        timer();
           
     }
 
@@ -85,10 +86,8 @@ $(document).ready(function() {
 
     function nextQuestion() {
 
-
-
         if (trivia.counter < 5) {
-        trivia.clockCounter = 20;    
+        trivia.clockCounter = 20; 
         $("#timer").show();
         $("#questionsGoHere").show();
         $("#optionsGoHere").show();
