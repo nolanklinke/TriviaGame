@@ -19,6 +19,7 @@ var trivia = {
             "Halloween", 
             "Boston, MA"],
     countdownTimer: 15,
+    counter: 0,
     correct: 0,
     wrong: 0,
 };
@@ -28,6 +29,7 @@ $(document).ready(function() {
 
     function correct() {
         trivia.correct++;
+        trivia.counter++;
         $("#timer").hide();
         $("#optionsGoHere").hide();
         $("#questionsGoHere").html("Yes, That is correct!");
@@ -38,9 +40,11 @@ $(document).ready(function() {
 
     function incorrect() {
         trivia.wrong++;
+        
         $("#timer").hide();
         $("#optionsGoHere").hide();
-        $("#questionsGoHere").html("Sorry, That is incorrect!");
+        $("#questionsGoHere").html("Sorry, That is incorrect! The correct option was " + trivia.answers[trivia.counter] + " .");
+        trivia.counter++;
         setTimeout(function() {
             nextQuestion();
           }, 3000);
@@ -56,15 +60,24 @@ $(document).ready(function() {
           }, 3000);
     }
 
+    function finalPage() {
+        document.getElementById("questionsGoHere").innerHTML = "You got " + trivia.correct + " out of 5 correct.";
+        document.getElementById("startGame").innerHTML = "Play Again?";
+        $("#startGame").show();
+    }
+
+
     function nextQuestion() {
-        trivia.questions.shift();
-        trivia.options.shift();
-        trivia.answers.shift();
+
+        if (trivia.counter < 5) {
         //$("#timer").show();
         $("#questionsGoHere").show();
         $("#optionsGoHere").show();
-        document.getElementById("questionsGoHere").innerHTML = trivia.questions[0];
-        makeOptions(trivia.options[0]);  
+        document.getElementById("questionsGoHere").innerHTML = trivia.questions[trivia.counter];
+        makeOptions(trivia.options[trivia.counter]); 
+        } else {
+            finalPage();
+        } 
     };
 
     
@@ -73,13 +86,15 @@ $(document).ready(function() {
     $("#optionsGoHere").hide();
     
     $("#startGame").on("click", function(){
+        trivia.counter = 0;
+        trivia.correct = 0;
 
         document.getElementById("questionsGoHere").innerHTML = trivia.questions[0];
         $("#questionsGoHere").show();
         $("#optionsGoHere").show();
         $("#startGame").hide();
 
-        makeOptions(trivia.options[0]);
+        makeOptions(trivia.options[trivia.counter]);
         
 });
 
@@ -98,10 +113,10 @@ var makeOptions = function(arrayIndex) {
     $(".optionBtn").on("click", function() {
         var userPick = $(this).data("answer")
 
-        if (userPick === trivia.answers[0]) {
+        if (userPick === trivia.answers[trivia.counter]) {
             correct();
         
-        } else if (userPick !== trivia.answers[0]) {
+        } else if (userPick !== trivia.answers[trivia.counter]) {
             incorrect();
             
         }
@@ -111,22 +126,3 @@ var makeOptions = function(arrayIndex) {
   
 });
 
-/*// Function for displaying movie data
-function renderButtons() {
-
-    // YOUR CODE GOES HERE
-    for (var i = 0; i < movies.length; i++) {
-      $("#movies-view").append("<button>" + movies[i] + "</button>");
-    }
-
-  }
-
-  // This function handles events where one button is clicked
-  $("#add-movie").on("click", function() {
-
-    // YOUR CODE GOES HERE
-
-  });
-
-  // Calling the renderButtons function to display the initial list of movies
-  renderButtons();*/
